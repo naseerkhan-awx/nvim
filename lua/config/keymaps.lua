@@ -69,3 +69,11 @@ end, { desc = "Goto Implementation" })
 
 -- Cmd+S → save file (same as Ctrl+S)
 vim.keymap.set({ "n", "i", "v", "s" }, "<D-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
+
+-- Cmd+[ / Cmd+] → jumplist back / forward (like IDE navigate back/forward)
+vim.keymap.set({ "n", "i", "v" }, "<D-[>", function()
+  vim.cmd.normal({ vim.api.nvim_replace_termcodes("<C-o>", true, false, true), bang = true })
+end, { desc = "Jump Back" })
+vim.keymap.set({ "n", "i", "v" }, "<D-]>", function()
+  vim.cmd.normal({ vim.api.nvim_replace_termcodes("<C-i>", true, false, true), bang = true })
+end, { desc = "Jump Forward" })
