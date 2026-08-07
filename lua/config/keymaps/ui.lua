@@ -26,3 +26,37 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<D-g>", function()
     Snacks.bufdelete.all()
   end
 end, { desc = "Close Window or All Buffers" })
+
+-- Cmd+J → focus terminal below (root dir)
+vim.keymap.set({ "n", "t" }, "<D-j>", function()
+  Snacks.terminal.focus(nil, { cwd = LazyVim.root.git(), auto_insert = false })
+end, { desc = "Terminal (Root Dir)" })
+
+-- Cmd+I → focus terminal on the right (separate from Cmd+J)
+vim.keymap.set({ "n", "t" }, "<D-i>", function()
+  Snacks.terminal.focus(nil, {
+    cwd = LazyVim.root.git(),
+    auto_insert = false,
+    env = { SNACKS_TERM = "right" }, -- distinct id from bottom terminal
+    win = { position = "right", width = 0.4 },
+  })
+end, { desc = "Terminal Right (Root Dir)" })
+
+-- Focus panel if open but unfocused; close if focused; otherwise open.
+local function focus_explorer(opts)
+  local explorer = Snacks.picker.get({ source = "explorer" })[1]
+  if explorer then
+    if explorer:is_focused() then
+      explorer:close()
+    else
+      explorer:focus()
+    end
+  else
+    Snacks.explorer(opts)
+  end
+end
+
+-- Cmd+B → focus file explorer (root dir)
+vim.keymap.set({ "n", "t" }, "<D-b>", function()
+  focus_explorer({ cwd = LazyVim.root.git() })
+end, { desc = "Explorer Snacks (root dir)" })

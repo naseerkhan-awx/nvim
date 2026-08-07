@@ -1,7 +1,0 @@
--- Cmd+[ / Cmd+] → jumplist back / forward (like IDE navigate back/forward)
-vim.keymap.set({ "n", "i", "v" }, "<D-[>", function()
-  vim.cmd.normal({ vim.api.nvim_replace_termcodes("<C-o>", true, false, true), bang = true })
-end, { desc = "Jump Back" })
-vim.keymap.set({ "n", "i", "v" }, "<D-]>", function()
-  vim.cmd.normal({ vim.api.nvim_replace_termcodes("<C-i>", true, false, true), bang = true })
-end, { desc = "Jump Forward" })
