@@ -10,3 +10,8 @@ vim.keymap.set(
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
   Snacks.picker.git_branches()
 end, { desc = "Git Branches" })
+
+-- Cmd+Shift+R → projects (same as <leader>fp)
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-r>", function()
+  Snacks.picker.projects()
+end, { desc = "Projects" })

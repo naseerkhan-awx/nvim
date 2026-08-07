@@ -13,3 +13,4 @@ keybind = super+[=unbind
 keybind = super+]=unbind
 keybind = super+shift+[=unbind
 keybind = super+shift+]=unbind
+keybind = super+shift+r=unbind
