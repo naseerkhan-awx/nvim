@@ -1,0 +1,16 @@
+# Ghostty config — https://ghostty.org/docs/config
+# Reload: Cmd+Shift+, (reload_config)
+
+theme = Ayu
+
+# Pass Cmd shortcuts through to Neovim (and the shell) instead of Ghostty actions
+keybind = super+w=unbind
+keybind = super+d=unbind
+keybind = super+g=unbind
+keybind = super+shift+g=unbind
+keybind = super+j=unbind
+keybind = super+[=unbind
+keybind = super+]=unbind
+keybind = super+shift+[=unbind
+keybind = super+shift+]=unbind
+keybind = super+shift+r=unbind
