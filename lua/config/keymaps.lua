@@ -25,14 +25,28 @@ vim.keymap.set({ "n", "t" }, "<A-j>", "<Cmd>wincmd j<CR>", { desc = "Go to Lower
 vim.keymap.set({ "n", "t" }, "<A-k>", "<Cmd>wincmd k<CR>", { desc = "Go to Upper Window" })
 vim.keymap.set({ "n", "t" }, "<A-l>", "<Cmd>wincmd l<CR>", { desc = "Go to Right Window" })
 
--- Cmd+J → toggle terminal below (root dir)
+-- Focus panel if open but unfocused; close if focused; otherwise open.
+local function focus_explorer(opts)
+  local explorer = Snacks.picker.get({ source = "explorer" })[1]
+  if explorer then
+    if explorer:is_focused() then
+      explorer:close()
+    else
+      explorer:focus()
+    end
+  else
+    Snacks.explorer(opts)
+  end
+end
+
+-- Cmd+J → focus terminal below (root dir)
 vim.keymap.set({ "n", "t" }, "<D-j>", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root.git(), auto_insert = false })
+  Snacks.terminal.focus(nil, { cwd = LazyVim.root.git(), auto_insert = false })
 end, { desc = "Terminal (Root Dir)" })
 
--- Cmd+I → toggle terminal on the right (separate from Cmd+J)
+-- Cmd+I → focus terminal on the right (separate from Cmd+J)
 vim.keymap.set({ "n", "t" }, "<D-i>", function()
-  Snacks.terminal(nil, {
+  Snacks.terminal.focus(nil, {
     cwd = LazyVim.root.git(),
     auto_insert = false,
     env = { SNACKS_TERM = "right" }, -- distinct id from bottom terminal
@@ -40,9 +54,9 @@ vim.keymap.set({ "n", "t" }, "<D-i>", function()
   })
 end, { desc = "Terminal Right (Root Dir)" })
 
--- Cmd+B → toggle file explorer (root dir)
+-- Cmd+B → focus file explorer (root dir)
 vim.keymap.set({ "n", "t" }, "<D-b>", function()
-  Snacks.explorer({ cwd = LazyVim.root.git() })
+  focus_explorer({ cwd = LazyVim.root.git() })
 end, { desc = "Explorer Snacks (root dir)" })
 
 -- Cmd+P → find files (same as <leader><space>)
