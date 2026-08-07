@@ -62,6 +62,11 @@ end, { desc = "Explorer Snacks (root dir)" })
 -- Cmd+P → find files (same as <leader><space>)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-p>", LazyVim.pick("files"), { desc = "Find Files (Root Dir)" })
 
+-- Cmd+K → fuzzy git branch finder / switcher (same as <leader>gb)
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
+  Snacks.picker.git_branches()
+end, { desc = "Git Branches" })
+
 -- Cmd+W → close current buffer (keep window layout)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-w>", function()
   Snacks.bufdelete()
