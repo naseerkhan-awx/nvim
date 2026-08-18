@@ -6,6 +6,14 @@ vim.keymap.set(
   { desc = "Find Files (Root Dir)" }
 )
 
+-- Cmd+Shift+F → global text search (same as <leader>/)
+vim.keymap.set(
+  { "n", "i", "v", "t" },
+  "<D-S-f>",
+  LazyVim.pick("live_grep"),
+  { desc = "Grep (Root Dir)" }
+)
+
 -- Cmd+K → fuzzy git branch finder / switcher (same as <leader>gb)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
   Snacks.picker.git_branches({ all = true })
