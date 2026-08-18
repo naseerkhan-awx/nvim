@@ -11,6 +11,8 @@ return {
               "~/projects",
               "~/Desktop/Personal",
               "~/Desktop/Personal/home-server",
+              "~/Desktop/Work/",
+              "~/Desktop/Work/playground/",
             },
           },
         },
