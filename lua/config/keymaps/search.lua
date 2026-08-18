@@ -2,19 +2,32 @@
 vim.keymap.set(
   { "n", "i", "v", "t" },
   "<D-p>",
-  LazyVim.pick("files", { hidden = true }),
+  LazyVim.pick("files", { hidden = true, ignored = false }),
   { desc = "Find Files (Root Dir)" }
 )
 
+-- Cmd+Shift+P → search open buffers (same as <leader>,)
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-p>", function()
+  Snacks.picker.buffers()
+end, { desc = "Buffers" })
+
+-- Cmd+Shift+F → global text search (same as <leader>/)
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-f>", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
+
 -- Cmd+K → fuzzy git branch finder / switcher (same as <leader>gb)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
-  Snacks.picker.git_branches()
+  Snacks.picker.git_branches({ all = true })
 end, { desc = "Git Branches" })
 
 -- Cmd+Shift+R → projects (same as <leader>fp)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-r>", function()
   Snacks.picker.projects()
 end, { desc = "Projects" })
+
+-- Cmd+Shift+O → LSP symbols in current file (same as <leader>ss)
+vim.keymap.set({ "n", "i", "v" }, "<D-S-o>", function()
+  Snacks.picker.lsp_symbols({ filter = LazyVim.config.kind_filter })
+end, { desc = "LSP Symbols" })
 
 -- Cmd+D → go to implementations (same as gI)
 vim.keymap.set({ "n", "i", "v" }, "<D-d>", function()

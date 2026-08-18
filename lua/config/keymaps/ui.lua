@@ -60,3 +60,21 @@ end
 vim.keymap.set({ "n", "t" }, "<D-b>", function()
   focus_explorer({ cwd = LazyVim.root.git() })
 end, { desc = "Explorer Snacks (root dir)" })
+
+-- In terminal normal mode, n → create a new tmux window.
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function(args)
+    vim.keymap.set("n", "n", function()
+      vim.fn.jobstart({ "tmux", "new-window" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux New Window" })
+    vim.keymap.set({ "n", "t" }, "<D-w>", function()
+      vim.fn.jobstart({ "tmux", "kill-window" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux Kill Window" })
+    vim.keymap.set({ "n", "t" }, "<M-H>", function()
+      vim.fn.jobstart({ "tmux", "select-window", "-t", ":-1" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux Previous Window" })
+    vim.keymap.set({ "n", "t" }, "<M-L>", function()
+      vim.fn.jobstart({ "tmux", "select-window", "-t", ":+1" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux Next Window" })
+  end,
+})
