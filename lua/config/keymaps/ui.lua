@@ -18,12 +18,6 @@ vim.keymap.set({ "n", "t" }, "<A-l>", "<Cmd>wincmd l<CR>", { desc = "Go to Right
 -- Cmd+\ → split window right
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-\\>", "<C-w>v", { desc = "Split Window Right" })
 
--- Cmd+\ in a terminal → open a fresh terminal in a right split
-vim.keymap.set("t", "<D-\\>", function()
-  vim.cmd("belowright vnew | terminal")
-  vim.cmd("startinsert")
-end, { desc = "New Terminal Split Right" })
-
 -- Cmd+G → close current window; if last window, close all buffers
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-g>", function()
   if #vim.api.nvim_tabpage_list_wins(0) > 1 then
@@ -66,3 +60,21 @@ end
 vim.keymap.set({ "n", "t" }, "<D-b>", function()
   focus_explorer({ cwd = LazyVim.root.git() })
 end, { desc = "Explorer Snacks (root dir)" })
+
+-- In terminal normal mode, n → create a new tmux window.
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function(args)
+    vim.keymap.set("n", "n", function()
+      vim.fn.jobstart({ "tmux", "new-window" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux New Window" })
+    vim.keymap.set({ "n", "t" }, "<D-w>", function()
+      vim.fn.jobstart({ "tmux", "kill-window" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux Kill Window" })
+    vim.keymap.set({ "n", "t" }, "<M-H>", function()
+      vim.fn.jobstart({ "tmux", "select-window", "-t", ":-1" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux Previous Window" })
+    vim.keymap.set({ "n", "t" }, "<M-L>", function()
+      vim.fn.jobstart({ "tmux", "select-window", "-t", ":+1" }, { detach = true })
+    end, { buffer = args.buf, desc = "Tmux Next Window" })
+  end,
+})
