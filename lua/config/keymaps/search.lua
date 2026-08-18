@@ -2,7 +2,7 @@
 vim.keymap.set(
   { "n", "i", "v", "t" },
   "<D-p>",
-  LazyVim.pick("files", { hidden = true }),
+  LazyVim.pick("files", { hidden = true, ignored = false }),
   { desc = "Find Files (Root Dir)" }
 )
 
@@ -12,12 +12,7 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-p>", function()
 end, { desc = "Buffers" })
 
 -- Cmd+Shift+F → global text search (same as <leader>/)
-vim.keymap.set(
-  { "n", "i", "v", "t" },
-  "<D-S-f>",
-  LazyVim.pick("live_grep"),
-  { desc = "Grep (Root Dir)" }
-)
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-f>", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
 
 -- Cmd+K → fuzzy git branch finder / switcher (same as <leader>gb)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()

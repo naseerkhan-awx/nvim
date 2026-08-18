@@ -18,6 +18,12 @@ vim.keymap.set({ "n", "t" }, "<A-l>", "<Cmd>wincmd l<CR>", { desc = "Go to Right
 -- Cmd+\ → split window right
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-\\>", "<C-w>v", { desc = "Split Window Right" })
 
+-- Cmd+\ in a terminal → open a fresh terminal in a right split
+vim.keymap.set("t", "<D-\\>", function()
+  vim.cmd("belowright vnew | terminal")
+  vim.cmd("startinsert")
+end, { desc = "New Terminal Split Right" })
+
 -- Cmd+G → close current window; if last window, close all buffers
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-g>", function()
   if #vim.api.nvim_tabpage_list_wins(0) > 1 then
