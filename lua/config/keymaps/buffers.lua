@@ -8,15 +8,10 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<D-w>", function()
   Snacks.bufdelete()
 end, { desc = "Close Buffer" })
 
--- Cmd+Shift+[ / ] → previous / next buffer
--- macOS often reports these as <D-{> / <D-}>, so bind both forms.
+-- Option+Shift+H / L (Option+H / Option+L) → previous / next buffer
 local modes = { "n", "i", "v", "t" }
-for _, key in ipairs({ "<D-S-[>", "<D-{" }) do
-  vim.keymap.set(modes, key, "<Cmd>bprevious<CR>", { desc = "Prev Buffer" })
-end
-for _, key in ipairs({ "<D-S-]>", "<D-}" }) do
-  vim.keymap.set(modes, key, "<Cmd>bnext<CR>", { desc = "Next Buffer" })
-end
+vim.keymap.set(modes, "<M-H>", "<Cmd>bprevious<CR>", { desc = "Prev Buffer" })
+vim.keymap.set(modes, "<M-L>", "<Cmd>bnext<CR>", { desc = "Next Buffer" })
 
 -- Cmd+S → save file (same as Ctrl+S)
 vim.keymap.set({ "n", "i", "v", "s" }, "<D-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
