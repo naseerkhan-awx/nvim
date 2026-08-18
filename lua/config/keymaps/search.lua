@@ -8,7 +8,7 @@ vim.keymap.set(
 
 -- Cmd+K → fuzzy git branch finder / switcher (same as <leader>gb)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
-  Snacks.picker.git_branches()
+  Snacks.picker.git_branches({ all = true })
 end, { desc = "Git Branches" })
 
 -- Cmd+Shift+R → projects (same as <leader>fp)
