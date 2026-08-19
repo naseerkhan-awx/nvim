@@ -1,3 +1,28 @@
+local function deduplicated_git_branches(opts, ctx)
+  local finder = require("snacks.picker.source.git").branches(opts, ctx)
+
+  return function(cb)
+    local seen = {}
+
+    return finder(function(item)
+      local branch = item.branch
+      if not branch then
+        return cb(item)
+      end
+
+      -- `git branch --all` lists local branches before remote-tracking
+      -- branches, so the local version wins when both exist.
+      local name = branch:match("^remotes/[^/]+/(.+)$") or branch
+      if seen[name] then
+        return
+      end
+
+      seen[name] = true
+      cb(item)
+    end)
+  end
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -5,6 +30,7 @@ return {
       picker = {
         sources = {
           git_branches = {
+            finder = deduplicated_git_branches,
             format = function(item)
               return {
                 {
