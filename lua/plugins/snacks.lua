@@ -12,7 +12,7 @@ local function deduplicated_git_branches(opts, ctx)
 
       -- `git branch --all` lists local branches before remote-tracking
       -- branches, so the local version wins when both exist.
-      local name = branch:match("^remotes/[^/]+/(.+)$") or branch
+      local name = branch:match("^remotes/origin/(.+)$") or branch
       if seen[name] then
         return
       end
