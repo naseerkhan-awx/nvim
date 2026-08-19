@@ -4,6 +4,20 @@ return {
     opts = {
       picker = {
         sources = {
+          git_branches = {
+            format = function(item)
+              return {
+                {
+                  item.current and " " or "  ",
+                  item.current and "SnacksPickerGitBranchCurrent" or nil,
+                },
+                {
+                  item.detached and "(detached HEAD)" or item.branch,
+                  item.detached and "SnacksPickerGitDetached" or "SnacksPickerGitBranch",
+                },
+              }
+            end,
+          },
           explorer = {
             hidden = true, -- dotfiles
             ignored = true, -- gitignored (often needed for .env)
