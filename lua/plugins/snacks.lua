@@ -43,6 +43,19 @@ return {
                 },
               }
             end,
+            win = {
+              input = {
+                keys = {
+                  ["<c-a>"] = false,
+                  ["n"] = { "git_branch_add", mode = "n" },
+                },
+              },
+              list = {
+                keys = {
+                  ["n"] = "git_branch_add",
+                },
+              },
+            },
           },
           explorer = {
             hidden = true, -- dotfiles
