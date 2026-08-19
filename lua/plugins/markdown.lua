@@ -1,20 +1,9 @@
 -- Markdown tweaks on top of LazyVim's lang.markdown extra.
 return {
-  -- Restore heading icons/backgrounds (LazyVim sets icons = {}).
+  -- Disable in-buffer styled rendering from LazyVim's markdown extra.
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    opts = {
-      heading = {
-        sign = false,
-        icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
-        width = "block",
-        left_pad = 1,
-        right_pad = 1,
-      },
-      checkbox = {
-        enabled = true,
-      },
-    },
+    enabled = false,
   },
 
   -- Turn off markdownlint diagnostics (MD013 line length, etc.).

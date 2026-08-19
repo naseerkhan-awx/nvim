@@ -29,16 +29,21 @@ end, { desc = "Close Window or All Buffers" })
 
 -- Cmd+J → focus terminal below (root dir)
 vim.keymap.set({ "n", "t" }, "<D-j>", function()
-  Snacks.terminal.focus(nil, { cwd = LazyVim.root.git(), auto_insert = false })
+  Snacks.terminal.focus("tmux-project", {
+    cwd = LazyVim.root.git(),
+    auto_insert = true,
+    env = { SNACKS_TERM = "bottom" },
+    win = { position = "bottom", height = 0.3 },
+  })
 end, { desc = "Terminal (Root Dir)" })
 
 -- Cmd+I → focus terminal on the right (separate from Cmd+J)
 vim.keymap.set({ "n", "t" }, "<D-i>", function()
-  Snacks.terminal.focus(nil, {
+  Snacks.terminal.focus("agent", {
     cwd = LazyVim.root.git(),
     auto_insert = false,
     env = { SNACKS_TERM = "right" }, -- distinct id from bottom terminal
-    win = { position = "right", width = 0.4 },
+    win = { position = "right", width = 0.3 },
   })
 end, { desc = "Terminal Right (Root Dir)" })
 
