@@ -1,6 +1,23 @@
--- Cmd+P → find files from the git project root (not LSP workspace root)
+-- Cmd+P → find files from the git project root (not LSP workspace root).
+-- Respects gitignore, but always includes .env* (often gitignored).
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-p>", function()
-  LazyVim.pick.open("files", { hidden = true, ignored = false, cwd = LazyVim.root.git() })
+  local cwd = LazyVim.root.git()
+  Snacks.picker({
+    cwd = cwd,
+    format = "file",
+    transform = "unique_file",
+    hidden = true,
+    multi = {
+      { source = "files", hidden = true, ignored = false, cwd = cwd },
+      {
+        source = "files",
+        hidden = true,
+        ignored = true,
+        cwd = cwd,
+        args = { "--glob", ".env*" },
+      },
+    },
+  })
 end, { desc = "Find Files (Root Dir)" })
 
 -- Cmd+Shift+P → search open buffers (same as <leader>,)
