@@ -5,3 +5,4 @@
 require("config.keymaps.ui")
 require("config.keymaps.buffers")
 require("config.keymaps.search")
+require("config.keymaps.tmux")
