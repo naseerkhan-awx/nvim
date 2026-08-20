@@ -1,10 +1,7 @@
--- Cmd+P → find files (same as <leader><space>)
-vim.keymap.set(
-  { "n", "i", "v", "t" },
-  "<D-p>",
-  LazyVim.pick("files", { hidden = true, ignored = false }),
-  { desc = "Find Files (Root Dir)" }
-)
+-- Cmd+P → find files from the git project root (not LSP workspace root)
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-p>", function()
+  LazyVim.pick.open("files", { hidden = true, ignored = false, cwd = LazyVim.root.git() })
+end, { desc = "Find Files (Root Dir)" })
 
 -- Cmd+Shift+P → search open buffers (same as <leader>,)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-p>", function()
