@@ -32,22 +32,12 @@ end, { desc = "Close Window or All Buffers" })
 
 -- Cmd+J → focus terminal below (root dir)
 vim.keymap.set({ "n", "t" }, "<D-j>", function()
-  Snacks.terminal.focus(nil, {
-    cwd = LazyVim.root.git(),
-    auto_insert = true,
-    env = { SNACKS_TERM = "bottom" },
-    win = { position = "bottom", height = 0.3 },
-  })
+  require("config.term").focus_bottom()
 end, { desc = "Terminal (Root Dir)" })
 
--- Cmd+I → focus terminal on the right (separate from Cmd+J)
+-- Cmd+I → focus terminal on the right running `agent`
 vim.keymap.set({ "n", "t" }, "<D-i>", function()
-  Snacks.terminal.focus("agent", {
-    cwd = LazyVim.root.git(),
-    auto_insert = false,
-    env = { SNACKS_TERM = "right" }, -- distinct id from bottom terminal
-    win = { position = "right", width = 0.3 },
-  })
+  require("config.term").focus_agent()
 end, { desc = "Terminal Right (Root Dir)" })
 
 -- Focus panel if open but unfocused; close if focused; otherwise open.
