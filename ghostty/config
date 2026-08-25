@@ -8,6 +8,7 @@ macos-option-as-alt = true
 
 # Pass Cmd shortcuts through to Neovim (and the shell) instead of Ghostty actions
 keybind = super+t=unbind
+keybind = super+n=unbind
 keybind = super+w=unbind
 keybind = super+d=unbind
 keybind = super+g=unbind

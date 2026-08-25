@@ -4,7 +4,7 @@ vim.keymap.set("n", "L", "<C-E><C-E><C-E>L", { desc = "Scroll down" })
 vim.keymap.set("n", "H", "<C-Y><C-Y><C-Y>H", { desc = "Scroll up" })
 
 -- Cmd+W → close current buffer (keep window layout)
-vim.keymap.set({ "n", "i", "v" }, "<D-w>", function()
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-w>", function()
   Snacks.bufdelete()
 end, { desc = "Close Buffer" })
 
