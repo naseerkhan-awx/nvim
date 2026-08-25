@@ -8,6 +8,7 @@ local NAV = {
   ["textDocument/implementation"] = "Go to Implementation",
   ["textDocument/typeDefinition"] = "Go to Type Definition",
   ["textDocument/references"] = "Find References",
+  ["textDocument/rename"] = "Rename Symbol",
   ["callHierarchy/incomingCalls"] = "Incoming Calls",
   ["callHierarchy/outgoingCalls"] = "Outgoing Calls",
 }

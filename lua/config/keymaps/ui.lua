@@ -63,3 +63,8 @@ end
 vim.keymap.set({ "n", "t" }, "<D-b>", function()
   focus_explorer({ cwd = LazyVim.root.git() })
 end, { desc = "Explorer Snacks (root dir)" })
+
+-- Option+R → rename the symbol under the cursor and its references
+vim.keymap.set({ "n", "x" }, "<A-r>", function()
+  vim.lsp.buf.rename()
+end, { desc = "LSP Rename Symbol" })
