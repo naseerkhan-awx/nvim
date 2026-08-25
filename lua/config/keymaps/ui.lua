@@ -35,6 +35,11 @@ vim.keymap.set({ "n", "t" }, "<D-j>", function()
   require("config.term").focus_bottom()
 end, { desc = "Terminal (Root Dir)" })
 
+-- Cmd+T → focus terminal below (root dir)
+vim.keymap.set({ "n", "t" }, "<D-t>", function()
+  require("config.term").focus_bottom()
+end, { desc = "Terminal (Root Dir)" })
+
 -- Cmd+I → focus terminal on the right running `agent`
 vim.keymap.set({ "n", "t" }, "<D-i>", function()
   require("config.term").focus_agent()
