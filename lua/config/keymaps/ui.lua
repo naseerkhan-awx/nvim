@@ -35,6 +35,11 @@ vim.keymap.set({ "n", "t" }, "<D-j>", function()
   require("config.term").focus_bottom()
 end, { desc = "Terminal (Root Dir)" })
 
+-- Cmd+T → focus terminal below (root dir)
+vim.keymap.set({ "n", "t" }, "<D-t>", function()
+  require("config.term").focus_bottom()
+end, { desc = "Terminal (Root Dir)" })
+
 -- Cmd+I → focus terminal on the right running `agent`
 vim.keymap.set({ "n", "t" }, "<D-i>", function()
   require("config.term").focus_agent()
@@ -58,3 +63,8 @@ end
 vim.keymap.set({ "n", "t" }, "<D-b>", function()
   focus_explorer({ cwd = LazyVim.root.git() })
 end, { desc = "Explorer Snacks (root dir)" })
+
+-- Option+R → rename the symbol under the cursor and its references
+vim.keymap.set({ "n", "x" }, "<A-r>", function()
+  vim.lsp.buf.rename()
+end, { desc = "LSP Rename Symbol" })

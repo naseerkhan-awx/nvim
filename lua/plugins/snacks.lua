@@ -65,6 +65,7 @@ return {
                 keys = {
                   ["a"] = false,
                   ["n"] = "explorer_add",
+                  ["f"] = "picker_grep",
                 },
               },
             },

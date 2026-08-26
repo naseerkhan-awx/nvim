@@ -1,8 +1,9 @@
 -- Toggleterm sessions with IDE-style panels:
 --   Cmd+J  bottom panel (one window, multiple tabs)
 --   Cmd+I  right panel running `agent`
---   n      new tab in the current panel
+--   Cmd+N  new tab in the current panel
 --   Opt+H/L  previous / next tab
+--   Opt+Space  leave terminal mode (no Esc to job)
 --
 -- Toggleterm cannot mix horizontal + vertical layouts on its own
 -- (opening a second direction splits the first). Windows are opened here;
@@ -181,7 +182,7 @@ function M.attach(term)
   end
   vim.b[buf].term_maps = true
 
-  vim.keymap.set("n", "n", M.new_tab, { buffer = buf, desc = "New Terminal Tab" })
+  vim.keymap.set({ "n", "t" }, "<D-n>", M.new_tab, { buffer = buf, desc = "New Terminal Tab" })
   vim.keymap.set({ "n", "t" }, "<M-H>", function()
     M.cycle(-1)
   end, { buffer = buf, desc = "Prev Terminal Tab" })
@@ -199,6 +200,9 @@ function M.attach(term)
     end
     return "<Esc>"
   end, { buffer = buf, expr = true, desc = "Double Escape to Normal Mode" })
+
+  -- Option+Space → leave terminal mode without sending Esc to the job.
+  vim.keymap.set("t", "<M-Space>", "<C-\\><C-n>", { buffer = buf, desc = "Terminal Normal Mode" })
 end
 
 ---@param win integer
