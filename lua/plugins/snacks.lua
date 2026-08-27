@@ -85,6 +85,7 @@ return {
               "~/Desktop/Work/playground/",
             },
           },
+          work_projects = require("config.pickers.work_projects"),
         },
       },
     },

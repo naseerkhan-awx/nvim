@@ -33,10 +33,10 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
   Snacks.picker.git_branches({ all = true })
 end, { desc = "Git Branches" })
 
--- Cmd+Shift+R → projects (same as <leader>fp)
+-- Cmd+Shift+R → work projects
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-r>", function()
-  Snacks.picker.projects()
-end, { desc = "Projects" })
+  Snacks.picker.work_projects()
+end, { desc = "Work Projects" })
 
 -- Cmd+Shift+O → LSP symbols in current file (same as <leader>ss)
 vim.keymap.set({ "n", "i", "v" }, "<D-S-o>", function()
