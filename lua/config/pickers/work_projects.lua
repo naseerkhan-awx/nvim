@@ -35,21 +35,28 @@ local function open_project(item)
   end
 
   vim.fn.mkdir(work_dir, "p")
-  Snacks.notify.info("Cloning " .. item.name .. "…", { title = "Projects" })
+  local terminal = Snacks.terminal.open({ "git", "clone", "--progress", "--", gitlab_url, target }, {
+    interactive = false,
+    auto_close = false,
+    win = {
+      title = " Cloning " .. item.name .. " ",
+    },
+  })
 
-  vim.system({ "git", "clone", "--", gitlab_url, target }, { text = true }, function(result)
+  terminal:on("TermClose", function()
+    local status = vim.v.event.status
     vim.schedule(function()
-      if result.code ~= 0 then
-        local message = vim.trim(result.stderr or "")
-        Snacks.notify.error(message ~= "" and message or "git clone failed", {
+      if status ~= 0 then
+        Snacks.notify.error("Clone failed with exit code " .. status .. ". Output left open for inspection.", {
           title = "Could not clone " .. item.name,
         })
         return
       end
 
+      terminal:close()
       restart_in(target)
     end)
-  end)
+  end, { buf = true })
 end
 
 function M.finder(_, ctx)
