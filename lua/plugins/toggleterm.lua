@@ -7,6 +7,9 @@ return {
       open_mapping = nil,
       shade_terminals = false,
       start_in_insert = true,
+      -- Off by default: in normal mode toggleterm scrolls to bottom on every line of
+      -- output (e.g. Gradle bootRun), which fights reading logs.
+      auto_scroll = false,
       persist_mode = true,
       persist_size = false,
       direction = "horizontal",
