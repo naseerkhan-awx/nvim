@@ -25,8 +25,10 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-p>", function()
   Snacks.picker.buffers()
 end, { desc = "Buffers" })
 
--- Cmd+Shift+F → global text search (same as <leader>/)
-vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-f>", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
+-- Cmd+Shift+F → global text search from the git project root (not LSP workspace root).
+vim.keymap.set({ "n", "i", "v", "t" }, "<D-S-f>", function()
+  Snacks.picker.grep({ cwd = LazyVim.root.git() })
+end, { desc = "Grep (Root Dir)" })
 
 -- Cmd+K → fuzzy git branch finder / switcher (same as <leader>gb)
 vim.keymap.set({ "n", "i", "v", "t" }, "<D-k>", function()
