@@ -2,6 +2,7 @@ local M = {}
 
 local projects_script = vim.fs.joinpath(vim.env.HOME, "dotfiles", "scripts", "projects")
 local work_dir = vim.fs.joinpath(vim.env.HOME, "Desktop", "Work")
+local session_title = require("config.session_title")
 
 local function restart_in(path)
   if vim.fn.isdirectory(path) ~= 1 then
@@ -9,7 +10,13 @@ local function restart_in(path)
     return
   end
 
-  local ok, err = pcall(vim.cmd, "restart cd " .. vim.fn.fnameescape(path))
+  -- :restart cd runs after init, so options.lua would still see the old cwd.
+  -- Cd and re-apply the tab title in the restarted session's startup command.
+  local restart_cmd = string.format(
+    "restart lua vim.cmd.cd(%s); require('config.session_title').apply({ respect_argv = false })",
+    string.format("%q", path)
+  )
+  local ok, err = pcall(vim.cmd, restart_cmd)
   if not ok then
     Snacks.notify.error(err, { title = "Project switch failed" })
   end
