@@ -40,10 +40,10 @@ vim.keymap.set({ "n", "t" }, "<D-t>", function()
   require("config.term").focus_bottom()
 end, { desc = "Terminal (Root Dir)" })
 
--- Cmd+I → focus terminal on the right running `agent`
+-- Cmd+I → focus terminal on the right running ai assistant cli
 vim.keymap.set({ "n", "t" }, "<D-i>", function()
   require("config.term").focus_agent()
-end, { desc = "Terminal Right (Root Dir)" })
+end, { desc = "Ai Assistant CLI (Root Dir)" })
 
 -- Focus panel if open but unfocused; close if focused; otherwise open.
 local function focus_explorer(opts)
