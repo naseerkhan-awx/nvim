@@ -1,6 +1,6 @@
 -- Toggleterm sessions with IDE-style panels:
 --   Cmd+J  bottom panel (one window, multiple tabs)
---   Cmd+I  right panel running `agent`
+--   Cmd+I  right panel running terminal AI agent
 --   Cmd+N  new tab in the current panel
 --   Opt+H/L  previous / next tab
 --   Opt+Space  leave terminal mode (no Esc to job)
@@ -10,6 +10,9 @@
 -- toggleterm only owns the terminal jobs and buffers.
 
 local M = {}
+
+---AI assistant CLI run in the agent panel
+local AGENT_CMD = "claude"
 
 ---@type table<string, number> last focused terminal id per panel
 local last = {}
@@ -203,6 +206,21 @@ function M.attach(term)
 
   -- Option+Space → leave terminal mode without sending Esc to the job.
   vim.keymap.set("t", "<M-Space>", "<C-\\><C-n>", { buffer = buf, desc = "Terminal Normal Mode" })
+
+  -- Agent TUI (e.g. OpenCode) uses alternate screen — no Neovim scrollback.
+  -- In terminal normal mode, H/L send Page Up/Down to the job.
+  if term.panel == "agent" then
+    local function send_page(step)
+      return function()
+        local job = vim.b.terminal_job_id
+        if job then
+          vim.fn.chansend(job, step == -1 and "\027[5~" or "\027[6~")
+        end
+      end
+    end
+    vim.keymap.set("n", "H", send_page(-1), { buffer = buf, desc = "Agent messages page up" })
+    vim.keymap.set("n", "L", send_page(1), { buffer = buf, desc = "Agent messages page down" })
+  end
 end
 
 ---@param win integer
@@ -248,34 +266,29 @@ function M.focus_bottom()
 end
 
 function M.focus_agent()
-  local term = terms().find(function(t)
-    return t.panel == "agent" and t.cmd == "agent"
-  end)
-  local first_open = term == nil
-  term = term
-    or create({
-      cmd = "agent",
-      panel = "agent",
-      direction = "vertical",
-      display_name = "agent",
-    })
-
-  -- First open starts in insert; later visits restore insert/normal.
-  local opts = first_open and { insert = true } or nil
-
   local win = panel_win("agent")
   if win then
     if win == vim.api.nvim_get_current_win() then
       hide_panel(win)
       return
     end
-    show_in_win(term, win, opts)
+    vim.api.nvim_set_current_win(win)
     return
   end
 
+  local term = last_term("agent")
+  local first_open = term == nil
+  term = term
+    or create({
+      cmd = AGENT_CMD,
+      panel = "agent",
+      direction = "vertical",
+      display_name = AGENT_CMD,
+    })
+
   vim.cmd("botright vsplit")
   vim.cmd("vertical resize " .. math.max(20, math.floor(vim.o.columns * 0.3)))
-  show_in_win(term, vim.api.nvim_get_current_win(), opts)
+  show_in_win(term, vim.api.nvim_get_current_win(), first_open and { insert = true } or nil)
 end
 
 function M.new_tab()
