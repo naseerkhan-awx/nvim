@@ -12,7 +12,7 @@
 local M = {}
 
 ---AI assistant CLI run in the agent panel
-local AGENT_CMD = "claude"
+local AGENT_CMD = "caffeinate -is claude"
 
 ---@type table<string, number> last focused terminal id per panel
 local last = {}
