@@ -37,7 +37,7 @@ local function show(id, title)
   Snacks.notifier.notify(title .. "…", "info", {
     id = id,
     title = "LSP",
-    timeout = false,
+    timeout = 10000, -- safety net: clear even if no terminal LspRequest event arrives
     history = false,
     opts = function(notif)
       notif.icon = spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
