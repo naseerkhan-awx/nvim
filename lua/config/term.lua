@@ -14,6 +14,11 @@ local M = {}
 ---AI assistant CLI run in the agent panel
 local AGENT_CMD = "agent"
 
+---Whether AGENT_CMD renders in the alternate screen buffer (no Neovim
+---scrollback). When true, H/L in terminal normal mode send Page Up/Down to
+---the job instead of acting as motions.
+local ALTERNATE_SCREEN_BUFFER = true
+
 ---@type table<string, number> last focused terminal id per panel
 local last = {}
 
@@ -206,6 +211,21 @@ function M.attach(term)
 
   -- Option+Space → leave terminal mode without sending Esc to the job.
   vim.keymap.set("t", "<M-Space>", "<C-\\><C-n>", { buffer = buf, desc = "Terminal Normal Mode" })
+
+  -- Agent TUI (e.g. OpenCode) uses alternate screen — no Neovim scrollback.
+  -- In terminal normal mode, H/L send Page Up/Down to the job.
+  if ALTERNATE_SCREEN_BUFFER and term.panel == "agent" then
+    local function send_page(step)
+      return function()
+        local job = vim.b.terminal_job_id
+        if job then
+          vim.fn.chansend(job, step == -1 and "\027[5~" or "\027[6~")
+        end
+      end
+    end
+    vim.keymap.set("n", "H", send_page(-1), { buffer = buf, desc = "Agent messages page up" })
+    vim.keymap.set("n", "L", send_page(1), { buffer = buf, desc = "Agent messages page down" })
+  end
 end
 
 ---@param win integer
