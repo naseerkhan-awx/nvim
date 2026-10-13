@@ -14,6 +14,11 @@ local M = {}
 ---AI assistant CLI run in the agent panel
 local AGENT_CMD = "caffeinate -is claude"
 
+---Whether AGENT_CMD renders in the alternate screen buffer (no Neovim
+---scrollback). When true, H/L in terminal normal mode send Page Up/Down to
+---the job instead of acting as motions.
+local ALTERNATE_SCREEN_BUFFER = true
+
 ---@type table<string, number> last focused terminal id per panel
 local last = {}
 
@@ -209,7 +214,7 @@ function M.attach(term)
 
   -- Agent TUI (e.g. OpenCode) uses alternate screen — no Neovim scrollback.
   -- In terminal normal mode, H/L send Page Up/Down to the job.
-  if term.panel == "agent" then
+  if ALTERNATE_SCREEN_BUFFER and term.panel == "agent" then
     local function send_page(step)
       return function()
         local job = vim.b.terminal_job_id
