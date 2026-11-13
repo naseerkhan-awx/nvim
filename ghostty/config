@@ -19,6 +19,7 @@ keybind = super+]=unbind
 keybind = super+shift+p=unbind
 keybind = super+shift+r=unbind
 
-# Use Option shortcuts for Ghostty tabs
-keybind = alt+t=new_tab
-keybind = alt+w=close_tab
+# Option shortcuts are freed for herdr (new/close workspace); never run
+# Ghostty actions on them.
+keybind = alt+t=unbind
+keybind = alt+w=unbind
