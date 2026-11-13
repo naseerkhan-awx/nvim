@@ -271,6 +271,11 @@ function M.focus_bottom()
 end
 
 function M.focus_agent()
+  -- Herdr handles Cmd+I globally; do not open a Neovim terminal there.
+  if vim.env.HERDR_ENV == "1" then
+    return
+  end
+
   local win = panel_win("agent")
   if win then
     if win == vim.api.nvim_get_current_win() then
